@@ -1,7 +1,3 @@
-// src/components/common/Sample/Sample.stories.tsx
-
-// import type { Meta, StoryObj } from "@storybook/react-vite";
-//storybook/nextjs-vite
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { HttpResponse, http } from "msw";
 
