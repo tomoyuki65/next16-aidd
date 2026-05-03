@@ -41,7 +41,15 @@ export const Pagination = ({
 }: PaginationProps) => {
   const currentPage = Math.min(Math.max(1, page), totalPages);
 
-  const items = buildPaginationItems({ page: currentPage, totalPages });
+  const baseItems = buildPaginationItems({ page: currentPage, totalPages });
+  const items =
+    totalPages <= 7
+      ? baseItems
+      : baseItems.filter((item) => {
+          if (item === 1) return currentPage === 1;
+          if (item === totalPages) return currentPage === totalPages;
+          return true;
+        });
 
   const normalButtonStyles = {
     bgClass: buttonClassNames?.bgClass ?? "bg-gray-200",
