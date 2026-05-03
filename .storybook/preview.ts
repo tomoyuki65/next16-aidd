@@ -1,9 +1,14 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import "@/app/globals.css";
 import { initialize, mswLoader } from "msw-storybook-addon";
+import { githubHandlers } from "@/lib/msw/handlers/github";
+import { sampleHandlers } from "@/lib/msw/handlers/sample";
 
 // mswの初期化
-initialize();
+initialize({ onUnhandledRequest: "warn" }, [
+  ...sampleHandlers,
+  ...githubHandlers,
+]);
 
 const preview: Preview = {
   // mswの設定追加

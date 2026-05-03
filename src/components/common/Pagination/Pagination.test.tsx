@@ -51,19 +51,28 @@ describe("Pagination", () => {
     expect(onPageChange).toHaveBeenCalledTimes(0);
   });
 
-  it("ページ番号の並びが先頭/中央/末尾で '…' を含む", () => {
+  it("ページ番号の並びが先頭/中央/末尾で適切に省略される（<< >> と重複する 1/last を出さない）", () => {
     const { rerender } = render(
       <Pagination page={1} totalPages={12} onPageChange={() => {}} />,
     );
     expect(screen.getByText("…")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "5" })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "12" }),
+    ).not.toBeInTheDocument();
 
     rerender(<Pagination page={6} totalPages={12} onPageChange={() => {}} />);
     expect(screen.getAllByText("…")).toHaveLength(2);
+    expect(screen.queryByRole("button", { name: "1" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "12" }),
+    ).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "6" })).toBeInTheDocument();
 
     rerender(<Pagination page={12} totalPages={12} onPageChange={() => {}} />);
     expect(screen.getByText("…")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "1" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "12" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "8" })).toBeInTheDocument();
   });
 
@@ -127,7 +136,7 @@ describe("Pagination", () => {
     expect(screen.getByRole("button", { name: "6" })).toBeDisabled();
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: "12" }));
+    await user.click(screen.getByRole("button", { name: ">>" }));
     expect(onPageChange).toHaveBeenCalledWith(12);
 
     // page=12 に切り替わると末尾ウィンドウへ再計算される

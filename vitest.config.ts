@@ -12,13 +12,30 @@ const dirname =
     ? __dirname
     : path.dirname(fileURLToPath(import.meta.url));
 
+const alias = [
+  {
+    find: /^@\//,
+    replacement: `${path.join(dirname, "src")}/`,
+  },
+  {
+    find: "@",
+    replacement: path.join(dirname, "src"),
+  },
+] as const;
+
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  resolve: {
+    alias,
+  },
   test: {
     projects: [
       // ユニットテスト用（integration含む）
       {
         plugins: [react()],
+        resolve: {
+          alias,
+        },
         test: {
           name: "unit",
           environment: "jsdom",
@@ -35,6 +52,9 @@ export default defineConfig({
           // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
           storybookTest({ configDir: path.join(dirname, ".storybook") }),
         ],
+        resolve: {
+          alias,
+        },
         test: {
           name: "storybook",
           browser: {
