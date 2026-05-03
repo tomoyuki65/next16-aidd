@@ -27,6 +27,11 @@ const errorTextSizeClasses: Record<InputErrorTextSize, string> = {
   sm: "text-sm",
 };
 
+const errorMinHeightClasses: Record<InputErrorTextSize, string> = {
+  xs: "min-h-4",
+  sm: "min-h-5",
+};
+
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -43,6 +48,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const resolvedTextSizeClass = inputTextSizeClasses[textSize ?? "base"];
     const resolvedErrorTextSizeClass =
       errorTextSizeClasses[errorTextSize ?? "sm"];
+    const resolvedErrorMinHeightClass =
+      errorMinHeightClasses[errorTextSize ?? "sm"];
 
     const inputClassName = [
       "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-400",
@@ -65,17 +72,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           style={resolvedStyle}
           {...props}
         />
-        {error?.message ? (
-          <p
-            className={[
-              "mt-1",
-              resolvedErrorTextSizeClass,
-              "text-red-600",
-            ].join(" ")}
-          >
-            {error.message}
-          </p>
-        ) : null}
+        <p
+          className={[
+            "mt-1",
+            resolvedErrorTextSizeClass,
+            resolvedErrorMinHeightClass,
+            "text-red-600",
+            error?.message ? "visible" : "invisible",
+          ].join(" ")}
+        >
+          {error?.message ?? "\u00A0"}
+        </p>
       </div>
     );
   },
