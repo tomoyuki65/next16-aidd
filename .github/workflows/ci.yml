@@ -86,7 +86,7 @@ jobs:
         run: pnpm check
 
   # 「unit/integration」tests 
-  test:
+  unit-test:
     needs: changes
     if: needs.changes.outputs.app == 'true'
     runs-on: ubuntu-latest
