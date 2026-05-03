@@ -1,5 +1,6 @@
 ignoredBuiltDependencies:
   - esbuild
+  - lefthook
   - msw
   - sharp
   - unrs-resolver

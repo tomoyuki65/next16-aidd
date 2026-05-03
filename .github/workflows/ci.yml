@@ -60,24 +60,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24.15.0
+          cache: pnpm
 
       - name: Corepackの有効化
         run: corepack enable
-
-      - name: Corepackでpnpmのインストール
-        run: corepack prepare pnpm@10.33.2 --activate
-
-      - name: pnpmの「store path」を取得
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-
-      - name: pnpmのキャッシュを取得
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
 
       - name: .lockから依存関係をインストール
         run: pnpm install --frozen-lockfile
@@ -99,24 +85,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24.15.0
+          cache: pnpm
 
       - name: Corepackの有効化
         run: corepack enable
-
-      - name: Corepackでpnpmのインストール
-        run: corepack prepare pnpm@10.33.2 --activate
-
-      - name: pnpmの「store path」を取得
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-
-      - name: pnpmのキャッシュを取得
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
 
       - name: .lockから依存関係をインストール
         run: pnpm install --frozen-lockfile
@@ -138,24 +110,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24.15.0
+          cache: pnpm
 
       - name: Corepackの有効化
         run: corepack enable
-
-      - name: Corepackでpnpmのインストール
-        run: corepack prepare pnpm@10.33.2 --activate
-
-      - name: pnpmの「store path」を取得
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-
-      - name: pnpmのキャッシュを取得
-        uses: actions/cache@v5
-        with:
-          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
 
       - name: .lockから依存関係をインストール
         run: pnpm install --frozen-lockfile
