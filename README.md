@@ -156,9 +156,10 @@ pnpm test:e2e
 ```
 pnpm test:e2e:ui
 ```
-
-
-
+  
+<br/>
+  
+> ※ playwrightのブラウザのインストールが必要なら「pnpm exec playwright install」を実行して下さい。
 
 ---
 
