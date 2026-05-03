@@ -51,12 +51,14 @@ Conventional Commits形式でコミットメッセージを生成する。
 `<type>: <summary>`
 
 #### type一覧
-- feat: 新規機能追加
-- fix: バグ修正
-- refactor: リファクタリング・性能改善
+
+- feat: ユーザーに価値を提供する新機能
+- fix: 不具合の修正
+- refactor: 挙動を変えない内部改善
+- docs: ドキュメントの追加・更新
 - test: テストの追加・修正
-- docs: ドキュメント修正
-- chore: その他
+- infra: インフラ・CI/CD・環境構築
+- chore: 上記に当てはまらない雑務（極力使わない）
 
 #### コミットメッセージの例
 
