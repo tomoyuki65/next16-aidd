@@ -88,6 +88,14 @@ curl https://get.volta.sh | bash
   
 > ※voltaのバージョンアップしたい場合は、コマンド再実行で可能です。
   
+<br/>
+  
+次に以下のコマンドを実行し、nodeをインストールできます。
+  
+```
+volta install node@24.15.0
+```
+  
 ---
 
 #### 2. corepackのインストールと有効化
@@ -98,6 +106,8 @@ voltaにインストールするには、以下のコマンドを実行して下
 ```
 volta install corepack
 ```
+  
+<br/>
   
 次に以下のコマンドを実行し、corepackの有効化をします。  
   
@@ -125,11 +135,15 @@ pnpm install --frozen-lockfile
 pnpm storybook
 ```
 
+<br/>
+
 #### ・ローカルサーバー起動（Next.jsアプリ）
 
 ```
 pnpm dev
 ```
+
+<br/>
 
 #### ・biome check（フォーマット修正・import整理・lint）実行
 
@@ -137,11 +151,15 @@ pnpm dev
 pnpm check
 ```
 
+<br/>
+
 #### ・テスト「unit/integration」実行
 
 ```
 pnpm test
 ```
+
+<br/>
 
 #### ・テスト「e2e」実行
 
@@ -150,6 +168,8 @@ pnpm test
 ```
 pnpm test:e2e
 ```
+  
+<br/>
   
 - UIあり
 
