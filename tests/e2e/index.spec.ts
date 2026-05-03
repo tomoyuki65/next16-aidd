@@ -5,4 +5,3 @@ test("トップページが表示される", async ({ page }) => {
 
   await expect(page).toHaveTitle(/Next/);
 });
-

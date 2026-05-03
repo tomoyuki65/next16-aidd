@@ -160,5 +160,8 @@ jobs:
       - name: .lockから依存関係をインストール
         run: pnpm install --frozen-lockfile
 
+      - name: playwrightのブラウザをインストール
+        run: pnpm exec playwright install --with-deps
+
       - name: テスト「e2e」の実行
         run: pnpm test:e2e
