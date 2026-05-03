@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@source "../components/**/*.stories.tsx";
+@source "../../.storybook/**/*.{ts,tsx}";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
