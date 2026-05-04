@@ -49,11 +49,11 @@ describe("Button", () => {
     );
   });
 
-  it("デフォルトのclass（bg-gray-700 / hover:bg-gray-800 / text-white）が付与される", () => {
+  it("デフォルトのclass（bg-gray-700 / hover:bg-gray-600 / text-white）が付与される", () => {
     render(<Button>Class</Button>);
     const button = screen.getByRole("button", { name: "Class" });
     expect(button).toHaveClass("bg-gray-700");
-    expect(button).toHaveClass("hover:bg-gray-800");
+    expect(button).toHaveClass("hover:bg-gray-600");
     expect(button).toHaveClass("text-white");
   });
 });

@@ -1,20 +1,28 @@
 import { HttpResponse, http, type RequestHandler } from "msw";
 import { endpoints } from "@/lib/api/endpoints";
 
+const extractQueryTerm = (q: string) => {
+  const trimmed = q.trim();
+  if (!trimmed) return "";
+
+  return trimmed.split(/\s+/)[0] ?? "";
+};
+
 // search repositories
 const searchRepositoriesHandler = http.get(
   endpoints.github.searchRepositories,
   ({ request }) => {
     const url = new URL(request.url);
     const q = url.searchParams.get("q") ?? "";
+    const term = extractQueryTerm(q);
     const perPageRaw = Number(url.searchParams.get("per_page") ?? "30");
     const pageRaw = Number(url.searchParams.get("page") ?? "1");
 
-    if (q === "error") {
+    if (term === "error") {
       return HttpResponse.json({ message: "Mock error" }, { status: 500 });
     }
 
-    const total_count = q === "empty" ? 0 : 250;
+    const total_count = term === "empty" ? 0 : 250;
     const perPage = Math.min(100, Math.max(1, perPageRaw || 30));
     const page = Math.min(10, Math.max(1, pageRaw || 1));
 
@@ -27,8 +35,8 @@ const searchRepositoriesHandler = http.get(
             const ordinal = start + index + 1;
             return {
               id: ordinal,
-              name: `${q}-repo-${ordinal}`,
-              full_name: `test/${q}-repo-${ordinal}`,
+              name: `${term}-repo-${ordinal}`,
+              full_name: `test/${term}-repo-${ordinal}`,
               owner: {
                 login: "test",
                 avatar_url: "https://github.com/test.png",

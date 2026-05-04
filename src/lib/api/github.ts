@@ -17,11 +17,13 @@ export const searchRepositories = async ({
   page = 1,
   signal,
 }: SearchRepositoriesParams): Promise<GitHubSearchRepositoriesResponse> => {
+  const trimmedQuery = query.trim();
   const clampedPerPage = clamp(perPage, 1, 100);
   const clampedPage = clamp(page, 1, 10);
 
   const url = new URL(endpoints.github.searchRepositories);
-  url.searchParams.set("q", query);
+  const q = trimmedQuery ? `${trimmedQuery} in:name` : "";
+  url.searchParams.set("q", q);
   url.searchParams.set("per_page", String(clampedPerPage));
   url.searchParams.set("page", String(clampedPage));
 

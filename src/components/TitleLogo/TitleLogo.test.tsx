@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/link", () => {
   type LinkMockProps = {
@@ -19,6 +19,9 @@ vi.mock("next/link", () => {
 });
 
 const mockUseSearchParams = vi.fn();
+const mockUsePathname = vi.fn();
+const pushMock = vi.fn();
+const refreshMock = vi.fn();
 
 vi.mock("next/navigation", async () => {
   const actual =
@@ -27,12 +30,27 @@ vi.mock("next/navigation", async () => {
   return {
     ...actual,
     useSearchParams: () => mockUseSearchParams(),
+    usePathname: () => mockUsePathname(),
+    useRouter: () => ({
+      push: pushMock,
+      refresh: refreshMock,
+      replace: vi.fn(),
+      back: vi.fn(),
+      prefetch: vi.fn(),
+      forward: vi.fn(),
+    }),
   };
 });
 
 import { TitleLogo } from "./TitleLogo";
 
 describe("TitleLogo", () => {
+  beforeEach(() => {
+    mockUsePathname.mockReturnValue("/repos/test/react-repo");
+    pushMock.mockClear();
+    refreshMock.mockClear();
+  });
+
   it("search 未指定・page 未指定のとき href が / になる", () => {
     mockUseSearchParams.mockReturnValue(new URLSearchParams());
 
@@ -189,5 +207,23 @@ describe("TitleLogo", () => {
       "href",
       "/",
     );
+  });
+
+  it("トップページではロゴクリックで / に遷移し、refresh する（キャッシュを使わない）", async () => {
+    const user = userEvent.setup();
+    mockUsePathname.mockReturnValue("/");
+    mockUseSearchParams.mockReturnValue(
+      new URLSearchParams({ search: "react", page: "2" }),
+    );
+
+    render(<TitleLogo title="Top" />);
+
+    const link = screen.getByRole("link", { name: "Top" });
+    expect(link).toHaveAttribute("href", "/");
+
+    await user.click(link);
+
+    expect(pushMock).toHaveBeenCalledWith("/");
+    expect(refreshMock).toHaveBeenCalled();
   });
 });

@@ -102,7 +102,7 @@ export const Search = ({
       <div className={inputWrapperClassName}>
         <Input
           id="search-query"
-          placeholder="Repository..."
+          placeholder="リポジトリ名を入力してください"
           autoComplete="off"
           error={errors.query}
           className={inputClassName}
