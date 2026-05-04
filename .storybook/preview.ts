@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import "@/app/globals.css";
 import { initialize, mswLoader } from "msw-storybook-addon";
+import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from "storybook/viewport";
 import { githubHandlers } from "@/lib/msw/handlers/github";
 import { sampleHandlers } from "@/lib/msw/handlers/sample";
 
@@ -15,6 +16,12 @@ const preview: Preview = {
   loaders: [mswLoader],
 
   parameters: {
+    viewport: {
+      options: {
+        ...INITIAL_VIEWPORTS,
+        ...MINIMAL_VIEWPORTS,
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
