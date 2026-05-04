@@ -52,8 +52,10 @@ export const Pagination = ({
         });
 
   const normalButtonStyles = {
-    bgClass: buttonClassNames?.bgClass ?? "bg-gray-200",
-    hoverBgClass: buttonClassNames?.hoverBgClass ?? "hover:bg-gray-300",
+    bgClass: buttonClassNames?.bgClass ?? "bg-gray-300",
+    hoverBgClass:
+      buttonClassNames?.hoverBgClass ??
+      "hover:bg-gray-200 disabled:hover:bg-gray-300",
     textColorClass: buttonClassNames?.textColorClass ?? "text-slate-900",
     textSizeClass: buttonClassNames?.textSizeClass ?? "text-sm",
     paddingClass: buttonClassNames?.paddingClass ?? "px-3 py-1",
@@ -64,7 +66,7 @@ export const Pagination = ({
 
   const activeButtonStyles = {
     bgClass: buttonClassNames?.activeBgClass ?? "bg-gray-700",
-    hoverBgClass: buttonClassNames?.activeHoverBgClass ?? "hover:bg-gray-800",
+    hoverBgClass: buttonClassNames?.activeHoverBgClass ?? "hover:bg-gray-700",
     textColorClass: buttonClassNames?.activeTextColorClass ?? "text-white",
     textSizeClass:
       buttonClassNames?.activeTextSizeClass ?? normalButtonStyles.textSizeClass,
@@ -128,7 +130,12 @@ export const Pagination = ({
             <li key={item}>
               <Button
                 {...(isCurrent ? activeButtonStyles : normalButtonStyles)}
-                className={extraButtonClassName}
+                className={[
+                  extraButtonClassName,
+                  isCurrent ? "disabled:opacity-100" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 onClick={() => {
                   if (isCurrent) return;
                   onPageChange(item);

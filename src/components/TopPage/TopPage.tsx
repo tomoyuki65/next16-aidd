@@ -103,8 +103,8 @@ export const TopPage = () => {
   const showResults = Boolean(query) && !isLoading && !error;
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 font-sans">
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
+    <div className="flex w-full flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
+      <div className="mt-4 w-[95%] self-center">
         <Search
           defaultQuery={query}
           onSearch={(nextQuery) => {
@@ -113,57 +113,57 @@ export const TopPage = () => {
             router.push(buildTopPageHref(nextQuery, 1));
           }}
         />
+      </div>
 
-        {query ? (
-          <div className="flex flex-col gap-4">
-            {isLoading ? (
-              <output className="text-slate-600" aria-live="polite">
-                Loading...
-              </output>
-            ) : error ? (
-              <div role="alert" className="text-red-600">
-                検索に失敗しました
-              </div>
-            ) : showResults && clampedTotalCount === 0 ? (
-              <div className="text-slate-600">結果がありません</div>
-            ) : showResults ? (
-              <>
-                <ul className="flex flex-col gap-3" aria-label="検索結果">
-                  {visibleItems.map((item) => (
-                    <li key={item.id}>
-                      <Card
-                        repoName={item.full_name}
-                        ownerImageUrl={item.owner.avatar_url}
-                        className="w-full"
-                        repoNameMaxLines={2}
-                        minHeightClassName="min-h-[88px]"
-                        onClick={() => {
-                          router.push(
-                            buildRepoDetailHref(item.full_name, query, page),
-                          );
-                        }}
-                      />
-                    </li>
-                  ))}
-                </ul>
-
-                {totalPages > 1 ? (
-                  <div className="flex justify-end pt-2">
-                    <Pagination
-                      page={resolvedPage}
-                      totalPages={totalPages}
-                      onPageChange={(nextPage) => {
-                        setPage(nextPage);
-                        router.push(buildTopPageHref(query, nextPage));
+      {query ? (
+        <div className="flex flex-col gap-4">
+          {isLoading ? (
+            <output className="text-slate-600" aria-live="polite">
+              Loading...
+            </output>
+          ) : error ? (
+            <div role="alert" className="text-red-600">
+              検索に失敗しました
+            </div>
+          ) : showResults && clampedTotalCount === 0 ? (
+            <div className="text-slate-600">結果がありません</div>
+          ) : showResults ? (
+            <>
+              <ul className="flex flex-col gap-3" aria-label="検索結果">
+                {visibleItems.map((item) => (
+                  <li key={item.id}>
+                    <Card
+                      repoName={item.full_name}
+                      ownerImageUrl={item.owner.avatar_url}
+                      className="w-full"
+                      repoNameMaxLines={2}
+                      minHeightClassName="min-h-[88px]"
+                      onClick={() => {
+                        router.push(
+                          buildRepoDetailHref(item.full_name, query, page),
+                        );
                       }}
                     />
-                  </div>
-                ) : null}
-              </>
-            ) : null}
-          </div>
-        ) : null}
-      </main>
+                  </li>
+                ))}
+              </ul>
+
+              {totalPages > 1 ? (
+                <div className="flex justify-end pt-2">
+                  <Pagination
+                    page={resolvedPage}
+                    totalPages={totalPages}
+                    onPageChange={(nextPage) => {
+                      setPage(nextPage);
+                      router.push(buildTopPageHref(query, nextPage));
+                    }}
+                  />
+                </div>
+              ) : null}
+            </>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 };

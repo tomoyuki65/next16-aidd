@@ -17,7 +17,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       bgClass = "bg-gray-700",
-      hoverBgClass = "hover:bg-gray-800",
+      hoverBgClass = "hover:bg-gray-600",
       textColorClass = "text-white",
       textSizeClass = "text-base",
       paddingClass = "px-6 py-2",
