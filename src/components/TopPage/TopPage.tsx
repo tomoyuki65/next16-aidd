@@ -45,7 +45,7 @@ const buildRepoDetailHref = (
   if (trimmed) params.set("search", trimmed);
   params.set("page", String(page));
 
-  return `/repos/${owner}/${repo}?${params.toString()}`;
+  return `/repository-detail/${owner}/${repo}?${params.toString()}`;
 };
 
 export const TopPage = () => {
