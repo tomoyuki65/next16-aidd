@@ -184,6 +184,97 @@ pnpm test:e2e:ui
 ---
 
 <br/>
+  
+## AIツールを利用した開発手順
+
+Codexアプリを利用し、主に以下の手順で開発：
+
+1. プランモードで開発計画を立てる
+2. スキル「plan-to-issue」を使ってGitHub Issueを自動登録
+3. 通常モードでタスク実行
+4. タスク完了後にレビュー（必要に応じて修正を繰り返す）
+5. レビュー完了後にスキル「auto-commit」を使って自動コミット
+6. スキル「auto-pr」を使って自動PR作成
+7. PRレビュー
+8. PRレビュー完了後にmainにマージ
+9. 対象のIssueクローズ
+  
+<br/>
+  
+## 作業時間のサマリ
+
+| タスク | 作業時間 |
+| ---- | ---- |
+| 1. 開発環境の初期セットアップ | 約10時間 |
+| 2. ハーネス設計 | 約10時間 |
+| 3. AIツールのプランモードによるタスク分解・Issue登録 | 約10時間 |
+| 4. AI駆動開発(タスク実行) | 約10時間 |
+| **合計** | **約40時間** |
+
+---
+
+<br/>
 
 ## 工夫した点や拘ったポイント
 
+### 1. AI駆動開発（SDD＋TDD）
+
+まずこれからの開発手法については、AIツールを利用した開発が避けられない時代になったため、  
+AI駆動開発前提で、各種作業を進めて開発を行いました。  
+  
+また、AI駆動開発ではテスト駆動開発（TDD）と相性がいいこともあり、  
+今回のようなフロントエンド開発ではSDD（Storybook Driven Development）も組み合わせ、  
+`AI駆動開発 × SDD × TDD` を採用しております。
+  
+そんなAI駆動開発では事前にしっかりハーネス設計をするのが大事になるため、  
+タスクに着手するまでの準備に時間がかかりましたが、  
+タスクに着手してからは約10時間ほどで開発が完了できました。  
+  
+---
+  
+### 2. チーム開発を前提とした各種準備
+
+今回の開発を行うにあたり、チーム開発を前提として進めております。  
+本ドキュメントをしっかり記述することも含め、環境差異による問題を減らせるように、  
+nodeやpnpmのバージョン固定、Gitフックによる（format・lint自動化）、GitHub ActionsによるCIも取り入れてます。  
+尚、CIでのキャッシュ利用を考慮し、今回はnpmではなくpnpmを採用しております。  
+  
+---
+  
+### 3. UI/UX
+
+今回はUIのデザイン性については評価軸ではないとのことですが、
+フロントエンド開発ではある程度しっかりワイヤーフレームのデザイン等が必要になるため、
+ご記載のワイヤーフレームを元に、少しデザインしたワイヤーフレームを作ってからタスク整理をしております。  
+
+- [トップページ画面](https://private-user-images.githubusercontent.com/26524767/586810193-cc786c31-dde0-46fa-964e-51e6563a22fa.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Nzc4NjgyNjIsIm5iZiI6MTc3Nzg2Nzk2MiwicGF0aCI6Ii8yNjUyNDc2Ny81ODY4MTAxOTMtY2M3ODZjMzEtZGRlMC00NmZhLTk2NGUtNTFlNjU2M2EyMmZhLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA0VDA0MTI0MlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU0ZjNhNTE2ZDZiYjM5YzNmMTE2ZTNjYmI0NWE5ODhiNDE4OTkzOTc4NjYzYTE2NjQzN2YwMTEyNWY5OThlYjMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRnBuZyJ9.5AOGBZwKE0Fpep5SRgxNrV1PnRcfarpGjrx5wPztXlk)
+
+- [リポジトリ詳細画面](https://private-user-images.githubusercontent.com/26524767/586845140-118fe29a-50c1-427e-b9a8-5201f3f5d029.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Nzc4NjgyNjIsIm5iZiI6MTc3Nzg2Nzk2MiwicGF0aCI6Ii8yNjUyNDc2Ny81ODY4NDUxNDAtMTE4ZmUyOWEtNTBjMS00MjdlLWI5YTgtNTIwMWYzZjVkMDI5LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA0VDA0MTI0MlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTcxMDgwMzc3N2ZhNjFkYmQzYTEzMGE1NDY0MmI3YTVhNTk1MTAwODgzNzljN2E3NDNmOTczODQ2YmFlNzA3ZGEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRnBuZyJ9.IqZZwrR4CvX4aRJD6SSPWFXuHxiUqo4AN513qZv_r4w)
+
+  - ※ ワイヤーフレームの作成では、Geminiの「Nano Banana 2」を利用しています。
+
+- その他、使用するカラーコードを決めておくなど
+  - 例：ボタンはHEX「#374151」、TailwindCSS「bg-gray-700」など
+  
+<br/>
+  
+また、UXの観点においては、フォームには「react-hook-form」と「zod」でバリデーションチェックを付けています。  
+そして、主にリポジトリ詳細画面からタイトルロゴをクリックしてトップページに戻った際に、  
+元のデータ一覧を表示するのにキャッシュ利用を考慮し、ライブラリ「SWR」を採用したデータフェッチを行っています。  
+  
+---
+  
+### 4. 最後に
+  
+エンジニア選考課題のご確認、ありがとうございます。  
+  
+私は普段は主にGo言語を使っていて、技術ブログ運営やコミュティ作りにも取り組んでおります。  
+  
+2022年6月にWebエンジニアへのキャリアチェンジを決意してから、  
+もう4年以上継続的に個人でキャッチアップしており、  
+自走できるのが強みの一つです。  
+  
+専門性としてはバックエンドを主軸に考えておりますが、  
+適材適所で多言語使えますので、  
+引き続き、どうぞよろしくお願いいたします。  
+  
