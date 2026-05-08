@@ -149,7 +149,7 @@ APIのエンドポイントは必ず以下で管理する：
 
 #### 例
 
-```tsx id="k3m8v2"
+```tsx
 export const endpoints = {
   users: "/api/users",
   userDetail: (id: string) => `/api/users/${id}`,

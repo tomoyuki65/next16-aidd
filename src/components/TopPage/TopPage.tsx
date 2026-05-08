@@ -80,11 +80,22 @@ export const TopPage = () => {
   const { data, error, isLoading } = useSWR(
     swrKey,
     async ([, q, apiPageValue]) => {
+      // デバッグ用
+      // console.log("APIを呼び出します:", q, apiPageValue);
       return await searchRepositories({
         query: q,
         perPage: API_PAGE_SIZE,
         page: apiPageValue,
       });
+    },
+    // オプション設定
+    {
+      // 同じキーでのリクエストを30秒間は「重複」とみなして通信をスキップする
+      dedupingInterval: 30000,
+      // ブラウザのタブを切り替えて戻ってきた時の自動更新をオフにする
+      revalidateOnFocus: false,
+      // ネットワークが復帰した時の自動更新をオフにする
+      revalidateOnReconnect: false,
     },
   );
 
